@@ -6,19 +6,19 @@ const newQuoteBtn = document.getElementById('new-quote');
 const paraText = document.getElementById('para');
 const loader = document.getElementById('loader');
 
-function loading(){
+function showLoadingSpinner(){
     loader.hidden =false;
     quoteContainer.hidden =true;
 }
 
-function complete(){
+function removeLoadingSpinner(){
     if (!loader.hidden){
         quoteContainer.hidden =false;
         loader.hidden = true;
     }
 }
 async function getQuote(){
-    loading();
+    showLoadingSpinner();
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
     try {
@@ -35,9 +35,11 @@ async function getQuote(){
         }
         quoteText.innerText = data.quoteText;
 
-        complete();
+        removeLoadingSpinner();
+        throw new Error('oops')
     }catch (error){
-        getQuote();
+        console.log(error);
+        // getQuote();
     }
 }
 
